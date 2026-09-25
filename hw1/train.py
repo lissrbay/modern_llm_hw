@@ -45,6 +45,12 @@ class TokenDataset(Dataset):
         chunk = self.tokens[start:start + self.seq_len + 1]
         return chunk[:-1], chunk[1:]
 
+@dataclass
+class AttnParams:
+    n_heads: int = 8
+    n_kv_heads: int = 2
+    max_seq_len: int = 128
+
 
 @dataclass
 class ARGS_DEFAULT:
@@ -67,8 +73,8 @@ class LlamaLightning(pl.LightningModule):
             max_seq_len=seq_len,
         )
         self.model = LLamaModel(
-            dim=dim,
-            attn_params=attn_params,
+        dim=dim,
+        attn_params=attn_params,
             decoder_blocks_num=n_layers,
             vocab_size=VOCAB_SIZE,
         )
